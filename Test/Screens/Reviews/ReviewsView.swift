@@ -3,7 +3,8 @@ import UIKit
 final class ReviewsView: UIView {
 
     let tableView = UITableView()
-
+    let refreshControl = UIRefreshControl()
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -34,6 +35,12 @@ private extension ReviewsView {
         tableView.separatorStyle = .none
         tableView.allowsSelection = false
         tableView.register(ReviewCell.self, forCellReuseIdentifier: ReviewCellConfig.reuseId)
+        tableView.register(ReviewsCountCell.self, forCellReuseIdentifier: ReviewsCountCellConfig.reuseId)
+        setupRefreshControl()
     }
-
+    
+    func setupRefreshControl() {
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        tableView.addSubview(refreshControl)
+    }
 }
