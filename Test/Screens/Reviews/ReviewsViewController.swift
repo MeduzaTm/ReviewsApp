@@ -8,6 +8,7 @@ final class ReviewsViewController: UIViewController {
     init(viewModel: ReviewsViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+        self.viewModel.navigationDelegate = self
     }
 
     required init?(coder: NSCoder) {
@@ -52,5 +53,13 @@ private extension ReviewsViewController {
             self?.viewModel.refreshData()
             self?.reviewsView.refreshControl.endRefreshing()
         }
+    }
+}
+
+extension ReviewsViewController: ReviewsNavigationDelegate {
+    func showImageView(images: [UIImage], initialIndex: Int) {
+        let vc = ReviewImageViewController(images: images, initialIndex: initialIndex)
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true)
     }
 }

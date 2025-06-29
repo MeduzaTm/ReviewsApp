@@ -9,7 +9,7 @@ struct ReviewCellConfig {
     /// Идентификатор конфигурации. Можно использовать для поиска конфигурации в массиве.
     let id = UUID()
     /// Аватар пользователя
-    let avatarImage: UIImage
+    var avatarImage: UIImage
     ///Рейтинг пользователя
     let ratingImage: UIImage
     ///Фото отзывов
@@ -26,6 +26,8 @@ struct ReviewCellConfig {
     let created: NSAttributedString
     /// Замыкание, вызываемое при нажатии на кнопку "Показать полностью...".
     let onTapShowMore: (UUID) -> Void
+    /// Замыкание, вызываемое при нажатии на фотографию
+    let onImageTap: (Int) -> Void
     
     /// Объект, хранящий посчитанные фреймы для ячейки отзыва.
     fileprivate let layout = ReviewCellLayout()
@@ -50,12 +52,15 @@ extension ReviewCellConfig: TableCellConfig {
         cell.createdLabel.attributedText = created
         cell.config = self
         
-        for image in reviewImages {
+        for (index, image) in reviewImages.enumerated() {
             let imageView = UIImageView()
             imageView.contentMode = .scaleAspectFill
             imageView.clipsToBounds = true
             imageView.layer.cornerRadius = Layout.photoCornerRadius
             imageView.image = image
+            imageView.isUserInteractionEnabled = true
+            imageView.tag = index
+            
             cell.imagesStackView.addArrangedSubview(imageView)
         }
     }
@@ -100,6 +105,8 @@ final class ReviewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupCell()
+        isUserInteractionEnabled = true
+        contentView.isUserInteractionEnabled = true
     }
     
     override func layoutSubviews() {
@@ -148,7 +155,11 @@ private extension ReviewCell {
         contentView.addSubview(imagesStackView)
         imagesStackView.axis = .horizontal
         imagesStackView.spacing = 8
+        imagesStackView.isUserInteractionEnabled = true
         imagesStackView.distribution = .fillEqually
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped(_:)))
+        imagesStackView.addGestureRecognizer(tapGesture)
     }
     
     func setupFirstNameLabel() {
@@ -179,6 +190,11 @@ private extension ReviewCell {
         showMoreButton.addAction(showAction, for: .touchUpInside)
     }
     
+    @objc func imageTapped(_ sender: UITapGestureRecognizer) {
+        let location = sender.location(in: imagesStackView)
+        guard let index = imagesStackView.arrangedSubviews.firstIndex(where: { $0.frame.contains(location) }) else { return }
+        config?.onImageTap(index)
+    }
 }
 
 // MARK: - Layout
