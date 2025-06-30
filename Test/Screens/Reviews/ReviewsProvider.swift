@@ -26,41 +26,33 @@ extension ReviewsProvider {
         
     }
     
-    func getReviews(offset: Int = 0, completion: @escaping (GetReviewsResult) -> Void) {
-        guard let url = bundle.url(forResource: "getReviews.response", withExtension: "json") else {
-            return completion(.failure(.badURL))
-        }
-        
-        // Симулируем сетевой запрос - не менять
-        usleep(.random(in: 100_000...1_000_000))
-        
-        do {
-            let data = try Data(contentsOf: url)
-            completion(.success(data))
-        } catch {
-            completion(.failure(.badData(error)))
-        }
-    }
-    
-    func getImages(from urlString: String, completion: @escaping (GetReviewsResult) -> Void) {
-        guard let url = URL(string: urlString) else {
-            completion(.failure(.badURL))
-            return
-        }
-        
-        let task = urlSession.dataTask(with: url) { data, response, error in
-            if let error = error {
-                completion(.failure(.badData(error)))
-                return
+    func getReviews(offset: Int = 0) async throws -> Data {
+            guard let url = bundle.url(forResource: "getReviews.response", withExtension: "json") else {
+                throw GetReviewsError.badURL
             }
+            
+            // Симулируем сетевой запрос - не менять
+            try await Task.sleep(nanoseconds: UInt64.random(in: 100_000_000...1_000_000_000))
+            
+            do {
+                return try Data(contentsOf: url)
+            } catch {
+                throw GetReviewsError.badData(error)
+            }
+        }
+        
+        func getImages(from urlString: String) async throws -> Data {
+            guard let url = URL(string: urlString) else {
+                throw GetReviewsError.badURL
+            }
+            
+            let (data, response) = try await urlSession.data(from: url)
+            
             guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode),
-                  let data = data else {
-                completion(.failure(.invalidResponse))
-                return
+                  (200...299).contains(httpResponse.statusCode) else {
+                throw GetReviewsError.invalidResponse
             }
-            completion(.success(data))
+            
+            return data
         }
-        task.resume()
-    }
 }

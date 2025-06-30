@@ -3,12 +3,18 @@ import UIKit
 protocol ReviewsNavigationDelegate: AnyObject {
     func showImageView(images: [UIImage], initialIndex: Int)
 }
-/// Класс, описывающий бизнес-логику экрана отзывов.
+
 final class ReviewsViewModel: NSObject {
     
-    /// Замыкание, вызываемое при изменении `state`.
     var onStateChange: ((State) -> Void)?
+    var onLoadingStateChange: ((Bool) -> Void)?
     weak var navigationDelegate: ReviewsNavigationDelegate?
+    
+    @MainActor private(set) var isLoading: Bool = false {
+        didSet {
+            onLoadingStateChange?(isLoading)
+        }
+    }
     
     private var state: State
     private let reviewsProvider: ReviewsProvider
@@ -17,7 +23,6 @@ final class ReviewsViewModel: NSObject {
     
     private var cellHeightCache: [UUID: CGFloat] = [:]
     private var countItemHeight: CGFloat?
-    private var isLoading = false
     
     init(
         state: State = State(),
@@ -31,7 +36,6 @@ final class ReviewsViewModel: NSObject {
         self.decoder = decoder
         decoder.keyDecodingStrategy = .convertFromSnakeCase
     }
-    
 }
 
 // MARK: - Internal
@@ -40,13 +44,22 @@ extension ReviewsViewModel {
     
     typealias State = ReviewsViewModelState
     
-    /// Метод получения отзывов.
     func getReviews() {
-        guard state.shouldLoad && !isLoading else { return }
-        isLoading = true
-        reviewsProvider.getReviews(offset: state.offset) { [weak self] result in
-            self?.isLoading = false
-            self?.gotReviews(result)
+        Task { @MainActor in
+            guard state.shouldLoad && !isLoading else { return }
+            await MainActor.run {
+                isLoading = true
+            }
+            do {
+                let data = try await reviewsProvider.getReviews(offset: state.offset)
+                gotReviews(data)
+            } catch {
+                handleReviewsError(error)
+            }
+            
+            await MainActor.run {
+                isLoading = false
+            }
         }
     }
     
@@ -55,7 +68,25 @@ extension ReviewsViewModel {
         cellHeightCache.removeAll()
         countItemHeight = nil
         
-        getReviews()
+        onStateChange?(state)
+        
+        Task {
+            await MainActor.run {
+                isLoading = true
+            }
+            
+            do {
+                let data = try await reviewsProvider.getReviews(offset: state.offset)
+                gotReviews(data)
+            } catch {
+                handleReviewsError(error)
+            }
+            
+            await MainActor.run {
+                isLoading = false
+            }
+        }
+        
     }
 }
 
@@ -64,9 +95,8 @@ extension ReviewsViewModel {
 private extension ReviewsViewModel {
     
     /// Метод обработки получения отзывов.
-    func gotReviews(_ result: ReviewsProvider.GetReviewsResult) {
+    func gotReviews(_ data: Data) {
         do {
-            let data = try result.get()
             let reviews = try decoder.decode(Reviews.self, from: data)
             state.items += reviews.items.map { makeReviewItem($0) }
             
@@ -82,27 +112,28 @@ private extension ReviewsViewModel {
         onStateChange?(state)
     }
     
-    func loadImages(from urlString: String, completion: @escaping (UIImage?) -> Void) {
-        guard !urlString.isEmpty else {
-            completion(nil)
-            return
-        }
+    func handleReviewsError(_ error: Error) {
+        state.shouldLoad = true
+        onStateChange?(state)
+    }
+    
+    @MainActor
+    func finishLoading() {
+        isLoading = false
+    }
+    
+    func loadImages(from urlString: String) async -> UIImage? {
+        guard !urlString.isEmpty else { return nil }
         
-        reviewsProvider.getImages(from: urlString) { result in
-            switch result {
-            case .success(let data):
-                let image = UIImage(data: data)
-                DispatchQueue.main.async {
-                    completion(image)
-                }
-            case .failure:
-                DispatchQueue.main.async {
-                    completion(nil)
-                }
-            }
+        do {
+            let data = try await reviewsProvider.getImages(from: urlString)
+            return UIImage(data: data)
+        } catch {
+            return nil
         }
     }
     
+    @MainActor
     func updateCell(with item: ReviewItem) {
         guard let index = state.items.firstIndex(where: { ($0 as? ReviewItem)?.id == item.id }) else { return }
         state.items[index] = item
@@ -110,8 +141,7 @@ private extension ReviewsViewModel {
         onStateChange?(state)
     }
     
-    /// Метод, вызываемый при нажатии на кнопку "Показать полностью...".
-    /// Снимает ограничение на количество строк текста отзыва (раскрывает текст).
+    @MainActor
     func showMoreReview(with id: UUID) {
         guard
             let index = state.items.firstIndex(where: { ($0 as? ReviewItem)?.id == id }),
@@ -178,13 +208,19 @@ private extension ReviewsViewModel {
             lastName: lastNameText,
             reviewText: reviewText,
             created: created,
-            onTapShowMore: showMoreReview,
+            onTapShowMore: { [weak self] id in
+                Task { @MainActor in
+                    self?.showMoreReview(with: id)
+                }
+            },
             onImageTap: { [weak self] index in
-                guard let self = self else { return }
-                
-                if let itemIndex = self.state.items.firstIndex(where: { ($0 as? ReviewItem)?.id == itemId }),
-                   let currentItem = self.state.items[itemIndex] as? ReviewItem {
-                    self.showImageView(images: currentItem.reviewImages, initialIndex: index)
+                Task { @MainActor in
+                    guard let self = self else { return }
+                    
+                    if let itemIndex = self.state.items.firstIndex(where: { ($0 as? ReviewItem)?.id == itemId }),
+                       let currentItem = self.state.items[itemIndex] as? ReviewItem {
+                        self.showImageView(images: currentItem.reviewImages, initialIndex: index)
+                    }
                 }
             }
         )
@@ -193,16 +229,19 @@ private extension ReviewsViewModel {
             if let cachedImage = ImageCache.shared.image(for: review.avatarUrl) {
                 item.avatarImage = cachedImage
             } else {
-                loadImages(from: review.avatarUrl) { [weak self] image in
-                    guard let self = self else { return }
-                    var updatedItem = item
-                    if let image = image {
-                        ImageCache.shared.setImage(image, for: review.avatarUrl)
-                        updatedItem.avatarImage = image
-                    } else {
-                        updatedItem.avatarImage = placeholder
+                let avatarUrl = review.avatarUrl
+                let itemId = item.id
+                
+                Task {
+                    let image = await loadImages(from: avatarUrl) ?? placeholder
+                    await MainActor.run {
+                        ImageCache.shared.setImage(image, for: avatarUrl)
+                        if let currentIndex = self.state.items.firstIndex(where: { ($0 as? ReviewItem)?.id == itemId }),
+                           var currentItem = self.state.items[currentIndex] as? ReviewItem {
+                            currentItem.avatarImage = image
+                            self.updateCell(with: currentItem)
+                        }
                     }
-                    self.updateCell(with: updatedItem)
                 }
             }
         }
@@ -211,18 +250,23 @@ private extension ReviewsViewModel {
             if let cachedImage = ImageCache.shared.image(for: url) {
                 item.reviewImages[index] = cachedImage
             } else {
-                loadImages(from: url) { [weak self] image in
-                    guard let self = self, let image = image else { return }
-                    
-                    ImageCache.shared.setImage(image, for: url)
-                    guard let currentIndex = self.state.items.firstIndex(where: { ($0 as? ReviewItem)?.id == item.id }),
-                          var currentItem = self.state.items[currentIndex] as? ReviewItem else { return }
-                    
-                    if currentItem.reviewImages.indices.contains(index) {
-                        currentItem.reviewImages[index] = image
-                        self.state.items[currentIndex] = currentItem
-                        self.cellHeightCache[currentItem.id] = nil
-                        self.onStateChange?(self.state)
+                let url = url
+                let itemId = item.id
+                let currentIndex = index
+                
+                Task {
+                    if let image = await loadImages(from: url) {
+                        await MainActor.run {
+                            ImageCache.shared.setImage(image, for: url)
+                            if let itemIndex = self.state.items.firstIndex(where: { ($0 as? ReviewItem)?.id == itemId }),
+                               var currentItem = self.state.items[itemIndex] as? ReviewItem,
+                               currentItem.reviewImages.indices.contains(currentIndex) {
+                                currentItem.reviewImages[currentIndex] = image
+                                self.state.items[itemIndex] = currentItem
+                                self.cellHeightCache[currentItem.id] = nil
+                                self.onStateChange?(self.state)
+                            }
+                        }
                     }
                 }
             }
@@ -260,7 +304,6 @@ extension ReviewsViewModel: UITableViewDataSource {
         config.update(cell: cell)
         return cell
     }
-    
 }
 
 // MARK: - UITableViewDelegate
@@ -278,6 +321,7 @@ extension ReviewsViewModel: UITableViewDelegate {
             if let cachedHeight = cellHeightCache[reviewItem.id] {
                 return cachedHeight
             }
+            
             let height = reviewItem.height(with: tableView.bounds.size)
             cellHeightCache[reviewItem.id] = height
             return height
@@ -294,16 +338,13 @@ extension ReviewsViewModel: UITableViewDelegate {
         return UITableView.automaticDimension
     }
     
-    /// Метод дозапрашивает отзывы, если до конца списка отзывов осталось два с половиной экрана по высоте.
     func scrollViewWillEndDragging(
         _ scrollView: UIScrollView,
         withVelocity velocity: CGPoint,
         targetContentOffset: UnsafeMutablePointer<CGPoint>
     ) {
         if shouldLoadNextPage(scrollView: scrollView, targetOffsetY: targetContentOffset.pointee.y) {
-            DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-                self?.getReviews()
-            }
+            getReviews()
         }
     }
     

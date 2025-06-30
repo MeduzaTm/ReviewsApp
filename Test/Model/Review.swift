@@ -2,7 +2,7 @@ import Foundation
 /// Модель отзыва.
 struct Review: Decodable, Identifiable {
     
-    let id = UUID()
+    var id: UUID { UUID() }
     ///Аватар пользователя
     let avatarUrl: String
     /// Имя пользователя.

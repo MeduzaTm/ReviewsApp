@@ -24,8 +24,8 @@ final class ReviewsViewController: UIViewController {
         super.viewDidLoad()
         setupViewModel()
         viewModel.getReviews()
+        setupLoading()
     }
-
 }
 
 // MARK: - Private
@@ -44,6 +44,20 @@ private extension ReviewsViewController {
         viewModel.onStateChange = { [weak self] reviewsView in
             DispatchQueue.main.async {
                 self?.reviewsView.tableView.reloadData()
+            }
+        }
+    }
+    
+    func setupLoading() {
+        viewModel.onLoadingStateChange = { [weak self] isLoading in
+            DispatchQueue.main.async {
+                if isLoading {
+                    self?.reviewsView.activityIndicatorView.isHidden = false
+                    self?.reviewsView.activityIndicatorView.startAnimation(delay: 0.04, replicates: 12)
+                } else {
+                    self?.reviewsView.activityIndicatorView.isHidden = true
+                    self?.reviewsView.activityIndicatorView.stopAnimation()
+                }
             }
         }
     }
