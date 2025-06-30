@@ -45,14 +45,12 @@ extension ReviewsProvider {
     func getImages(from urlString: String, completion: @escaping (GetReviewsResult) -> Void) {
         guard let url = URL(string: urlString) else {
             completion(.failure(.badURL))
-            print("bad url")
             return
         }
         
         let task = urlSession.dataTask(with: url) { data, response, error in
             if let error = error {
                 completion(.failure(.badData(error)))
-                print("error")
                 return
             }
             guard let httpResponse = response as? HTTPURLResponse,
@@ -61,7 +59,6 @@ extension ReviewsProvider {
                 completion(.failure(.invalidResponse))
                 return
             }
-            
             completion(.success(data))
         }
         task.resume()

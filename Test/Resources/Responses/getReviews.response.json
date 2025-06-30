@@ -6,16 +6,20 @@
             "first_name": "Иван",
             "last_name": "Петров",
             "rating": 5,
-            "review_photos": [],
+            "review_urls": [],
             "text": "Кроссовки хорошие. Удобные. Как по мне сшиты.",
             "created": "1 час назад"
         },
         {
-            "avatar_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-9JZb8ZaGtj_Sh3bXvRtfqq54J5ukHIHBkw&s",
+            "avatar_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRiKjaDvICPlocqwPUpIhZTIQNHp2EEHYFEA&s",
             "first_name": "Екатерина",
             "last_name": "Иванова",
             "rating": 3,
-            "review_photos": ["IMG_0001", "IMG_0002", "IMG_0003", "IMG_0004"],
+            "review_urls": [
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRiKjaDvICPlocqwPUpIhZTIQNHp2EEHYFEA&s",
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-9JZb8ZaGtj_Sh3bXvRtfqq54J5ukHIHBkw&s",
+                "https://i.pinimg.com/236x/c8/cc/24/c8cc24bba37a25c009647b8875aae0e3.jpg",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSp1mQO3AQUaFStvqx5wRa1UUbKFVm1iZoZWD0FvqdjLNrnpvzPZinq8pimB_FYiZ8q_58&usqp=CAU"],
             "text": "Скользские ужасно.",
             "created": "12 минут назад"
         },
@@ -24,7 +28,7 @@
             "first_name": "Евгения",
             "last_name": "Петрова",
             "rating": 4,
-            "review_photos": [],
+            "review_urls": [],
             "text": "Прошла по снегу 30 метров, 5 раз упала. Спасибо мужу, поддерживал. Возврат, к сожалению.",
             "created": "35 минут назад"
         },
@@ -33,7 +37,7 @@
             "first_name": "Илья",
             "last_name": "Петров",
             "rating": 2,
-            "review_photos": ["IMG_0001"],
+            "review_urls": ["https://i.pinimg.com/236x/c8/cc/24/c8cc24bba37a25c009647b8875aae0e3.jpg"],
             "text": "Понравилось отношение - несмотря на то, что заказ был выполнен не идеально, продавец был очень любезен и шёл... Прошла по снегу 30 метров, 5 раз упала. Спасибо мужу, поддерживал. Возврат, к сожалению.",
             "created": "минуту назад"
         },
@@ -42,7 +46,7 @@
             "first_name": "Никита",
             "last_name": "Иванов",
             "rating": 5,
-            "review_photos": [],
+            "review_urls": [],
             "text": "Отлично выглядят, хоть и скользковатые...",
             "created": "только что"
         },
@@ -51,7 +55,7 @@
             "first_name": "Олег",
             "last_name": "Николаев",
             "rating": 1,
-            "review_photos": [],
+            "review_urls": [],
             "text": "Ребёнок жалуется, что очень скользские. Пока шла до школы...",
             "created": "15 минут назад"
         },
@@ -61,137 +65,155 @@
             "last_name": "Петров",
             "rating": 2,
             "text": "",
-            "review_photos": ["IMG_0004", "IMG_0005", "IMG_0006"],
+            "review_urls": [
+                "https://i.pinimg.com/736x/0f/4a/83/0f4a833145e7596a4c3468cb2883edad.jpg",
+                "https://i.pinimg.com/736x/93/53/be/9353be482d42c94f88f01ecd8f9d5774.jpg",
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRiKjaDvICPlocqwPUpIhZTIQNHp2EEHYFEA&s"],
             "created": "вчера в 12:39"
         },
 
 
-        {
-            "avatar_url": "https://i.pinimg.com/736x/93/53/be/9353be482d42c94f88f01ecd8f9d5774.jpg",
-            "first_name": "Иван",
-            "last_name": "Петров",
-            "rating": 5,
-            "review_photos": [],
-            "text": "Кроссовки хорошие. Удобные. Как по мне сшиты.",
-            "created": "1 час назад"
-        },
-        {
-            "avatar_url": "https://i.pinimg.com/736x/0f/4a/83/0f4a833145e7596a4c3468cb2883edad.jpg",
-            "first_name": "Екатерина",
-            "last_name": "Иванова",
-            "rating": 3,
-            "review_photos": ["IMG_0001", "IMG_0002", "IMG_0003", "IMG_0004"],
-            "text": "Скользские ужасно.",
-            "created": "12 минут назад"
-        },
-        {
-            "avatar_url": "https://i.pinimg.com/1200x/8e/da/3e/8eda3e300bf17b356a57d060f2c9e34b.jpg",
-            "first_name": "Евгения",
-            "last_name": "Петрова",
-            "rating": 4,
-            "review_photos": [],
-            "text": "Прошла по снегу 30 метров, 5 раз упала. Спасибо мужу, поддерживал. Возврат, к сожалению.",
-            "created": "35 минут назад"
-        },
-        {
-            "avatar_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSg774aOXKNj_XVV3qU3PWd-04rYlXcLiThiQ&s",
-            "first_name": "Илья",
-            "last_name": "Петров",
-            "rating": 2,
-            "review_photos": ["IMG_0001"],
-            "text": "Понравилось отношение - несмотря на то, что заказ был выполнен не идеально, продавец был очень любезен и шёл... Прошла по снегу 30 метров, 5 раз упала. Спасибо мужу, поддерживал. Возврат, к сожалению.",
-            "created": "минуту назад"
-        },
-        {
-            "avatar_url": "https://i.pinimg.com/736x/0a/30/93/0a30931c41dc177aad2e96ea20495674.jpg",
-            "first_name": "Никита",
-            "last_name": "Иванов",
-            "rating": 5,
-            "review_photos": [],
-            "text": "Отлично выглядят, хоть и скользковатые...",
-            "created": "только что"
-        },
-        {
-            "avatar_url": "https://i.pinimg.com/236x/42/23/4f/42234fe8be76cb53aceb273ecd744e80.jpg",
-            "first_name": "Олег",
-            "last_name": "Николаев",
-            "rating": 1,
-            "review_photos": [],
-            "text": "Ребёнок жалуется, что очень скользские. Пока шла до школы...",
-            "created": "15 минут назад"
-        },
-        {
-            "avatar_url": "https://i.pinimg.com/236x/b6/da/d2/b6dad24f26f6e784c95d2e9d7f94a25f.jpg",
-            "first_name": "Николай",
-            "last_name": "Петров",
-            "rating": 2,
-            "text": "",
-            "review_photos": ["IMG_0004", "IMG_0005", "IMG_0006"],
-            "created": "вчера в 12:39"
-        },
-
-
-        {
-            "avatar_url": "https://i.pinimg.com/236x/24/7a/cd/247acde6aa62178a0ed95f8b4283922d.jpg",
-            "first_name": "Иван",
-            "last_name": "Петров",
-            "rating": 5,
-            "review_photos": [],
-            "text": "Кроссовки хорошие. Удобные. Как по мне сшиты.",
-            "created": "1 час назад"
-        },
-        {
-            "avatar_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5Q7DUVBvNcNo26y0jvVw5rATGOQbmH92TtwD-xCG4XCdYK_Sk4535Q3WRHORbCBKcn1o&usqp=CAU",
-            "first_name": "Екатерина",
-            "last_name": "Иванова",
-            "rating": 3,
-            "review_photos": ["IMG_0001", "IMG_0002", "IMG_0003", "IMG_0004"],
-            "text": "Скользские ужасно.",
-            "created": "12 минут назад"
-        },
-        {
-            "avatar_url": "https://img.freepik.com/free-photo/cute-cat-spending-time-indoors_23-2150649172.jpg?semt=ais_hybrid&w=740",
-            "first_name": "Евгения",
-            "last_name": "Петрова",
-            "rating": 4,
-            "review_photos": [],
-            "text": "Прошла по снегу 30 метров, 5 раз упала. Спасибо мужу, поддерживал. Возврат, к сожалению.",
-            "created": "35 минут назад"
-        },
-        {
-            "avatar_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQISfhqtTtawX_C8XGM2Mkh1DwhWhm-If4_4w&s",
-            "first_name": "Илья",
-            "last_name": "Петров",
-            "rating": 2,
-            "review_photos": ["IMG_0001"],
-            "text": "Понравилось отношение - несмотря на то, что заказ был выполнен не идеально, продавец был очень любезен и шёл... Прошла по снегу 30 метров, 5 раз упала. Спасибо мужу, поддерживал. Возврат, к сожалению.",
-            "created": "минуту назад"
-        },
-        {
-            "avatar_url": "https://i.pinimg.com/236x/67/a3/54/67a35421b177411cacfd209e5cc0f957.jpg",
-            "first_name": "Никита",
-            "last_name": "Иванов",
-            "rating": 5,
-            "review_photos": [],
-            "text": "Отлично выглядят, хоть и скользковатые...",
-            "created": "только что"
-        },
-        {
-            "avatar_url": "https://koshka.top/uploads/posts/2021-12/thumbs/1638588426_11-koshka-top-p-milikh-kotikov-na-avu-12.jpg",
-            "first_name": "Олег",
-            "last_name": "Николаев",
-            "rating": 1,
-            "review_photos": [],
-            "text": "Ребёнок жалуется, что очень скользские. Пока шла до школы...",
-            "created": "15 минут назад"
-        },
         {
             "avatar_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRiKjaDvICPlocqwPUpIhZTIQNHp2EEHYFEA&s",
+            "first_name": "Иван",
+            "last_name": "Петров",
+            "rating": 5,
+            "review_urls": [],
+            "text": "Кроссовки хорошие. Удобные. Как по мне сшиты.",
+            "created": "1 час назад"
+        },
+        {
+            "avatar_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-9JZb8ZaGtj_Sh3bXvRtfqq54J5ukHIHBkw&s",
+            "first_name": "Екатерина",
+            "last_name": "Иванова",
+            "rating": 3,
+            "review_urls": [
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRiKjaDvICPlocqwPUpIhZTIQNHp2EEHYFEA&s",
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-9JZb8ZaGtj_Sh3bXvRtfqq54J5ukHIHBkw&s",
+                "https://i.pinimg.com/236x/c8/cc/24/c8cc24bba37a25c009647b8875aae0e3.jpg",
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSp1mQO3AQUaFStvqx5wRa1UUbKFVm1iZoZWD0FvqdjLNrnpvzPZinq8pimB_FYiZ8q_58&usqp=CAU"],
+            "text": "Скользские ужасно.",
+            "created": "12 минут назад"
+        },
+        
+        {
+            "avatar_url": "https://i.pinimg.com/236x/b1/cc/99/b1cc9987043f82eda1963ab8ba5d03c5.jpg",
+            "first_name": "Евгения",
+            "last_name": "Петрова",
+            "rating": 4,
+            "review_urls": [],
+            "text": "Прошла по снегу 30 метров, 5 раз упала. Спасибо мужу, поддерживал. Возврат, к сожалению.",
+            "created": "35 минут назад"
+        },
+        {
+            "avatar_url": "https://i.pinimg.com/236x/c8/cc/24/c8cc24bba37a25c009647b8875aae0e3.jpg",
+            "first_name": "Илья",
+            "last_name": "Петров",
+            "rating": 2,
+            "review_urls": ["https://i.pinimg.com/236x/c8/cc/24/c8cc24bba37a25c009647b8875aae0e3.jpg"],
+            "text": "Понравилось отношение - несмотря на то, что заказ был выполнен не идеально, продавец был очень любезен и шёл... Прошла по снегу 30 метров, 5 раз упала. Спасибо мужу, поддерживал. Возврат, к сожалению.",
+            "created": "минуту назад"
+        },
+        {
+            "avatar_url": "https://i.pinimg.com/236x/0f/4a/83/0f4a833145e7596a4c3468cb2883edad.jpg",
+            "first_name": "Никита",
+            "last_name": "Иванов",
+            "rating": 5,
+            "review_urls": [],
+            "text": "Отлично выглядят, хоть и скользковатые...",
+            "created": "только что"
+        },
+        {
+            "avatar_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSp1mQO3AQUaFStvqx5wRa1UUbKFVm1iZoZWD0FvqdjLNrnpvzPZinq8pimB_FYiZ8q_58&usqp=CAU",
+            "first_name": "Олег",
+            "last_name": "Николаев",
+            "rating": 1,
+            "review_urls": [],
+            "text": "Ребёнок жалуется, что очень скользские. Пока шла до школы...",
+            "created": "15 минут назад"
+        },
+        
+        {
+            "avatar_url": "https://i.pinimg.com/236x/4b/61/33/4b6133b490c5dd3fe0845b1837db81c3.jpg",
             "first_name": "Николай",
             "last_name": "Петров",
             "rating": 2,
             "text": "",
-            "review_photos": ["IMG_0004", "IMG_0005", "IMG_0006"],
+            "review_urls": [
+                "https://i.pinimg.com/736x/0f/4a/83/0f4a833145e7596a4c3468cb2883edad.jpg",
+                "https://i.pinimg.com/736x/93/53/be/9353be482d42c94f88f01ecd8f9d5774.jpg",
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRiKjaDvICPlocqwPUpIhZTIQNHp2EEHYFEA&s"],
+            "created": "вчера в 12:39"
+        },
+        
+        {
+            "avatar_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRiKjaDvICPlocqwPUpIhZTIQNHp2EEHYFEA&s",
+            "first_name": "Иван",
+            "last_name": "Петров",
+            "rating": 5,
+            "review_urls": [],
+            "text": "Кроссовки хорошие. Удобные. Как по мне сшиты.",
+            "created": "1 час назад"
+        },
+        {
+            "avatar_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-9JZb8ZaGtj_Sh3bXvRtfqq54J5ukHIHBkw&s",
+            "first_name": "Екатерина",
+            "last_name": "Иванова",
+            "rating": 3,
+            "review_urls": [
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRiKjaDvICPlocqwPUpIhZTIQNHp2EEHYFEA&s",
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR-9JZb8ZaGtj_Sh3bXvRtfqq54J5ukHIHBkw&s",
+                "https://i.pinimg.com/236x/c8/cc/24/c8cc24bba37a25c009647b8875aae0e3.jpg",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSp1mQO3AQUaFStvqx5wRa1UUbKFVm1iZoZWD0FvqdjLNrnpvzPZinq8pimB_FYiZ8q_58&usqp=CAU"],
+            "text": "Скользские ужасно.",
+            "created": "12 минут назад"
+        },
+        {
+            "avatar_url": "https://i.pinimg.com/236x/b1/cc/99/b1cc9987043f82eda1963ab8ba5d03c5.jpg",
+            "first_name": "Евгения",
+            "last_name": "Петрова",
+            "rating": 4,
+            "review_urls": [],
+            "text": "Прошла по снегу 30 метров, 5 раз упала. Спасибо мужу, поддерживал. Возврат, к сожалению.",
+            "created": "35 минут назад"
+        },
+        {
+            "avatar_url": "https://i.pinimg.com/236x/c8/cc/24/c8cc24bba37a25c009647b8875aae0e3.jpg",
+            "first_name": "Илья",
+            "last_name": "Петров",
+            "rating": 2,
+            "review_urls": ["https://i.pinimg.com/236x/c8/cc/24/c8cc24bba37a25c009647b8875aae0e3.jpg"],
+            "text": "Понравилось отношение - несмотря на то, что заказ был выполнен не идеально, продавец был очень любезен и шёл... Прошла по снегу 30 метров, 5 раз упала. Спасибо мужу, поддерживал. Возврат, к сожалению.",
+            "created": "минуту назад"
+        },
+        {
+            "avatar_url": "https://i.pinimg.com/236x/0f/4a/83/0f4a833145e7596a4c3468cb2883edad.jpg",
+            "first_name": "Никита",
+            "last_name": "Иванов",
+            "rating": 5,
+            "review_urls": [],
+            "text": "Отлично выглядят, хоть и скользковатые...",
+            "created": "только что"
+        },
+        {
+            "avatar_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSp1mQO3AQUaFStvqx5wRa1UUbKFVm1iZoZWD0FvqdjLNrnpvzPZinq8pimB_FYiZ8q_58&usqp=CAU",
+            "first_name": "Олег",
+            "last_name": "Николаев",
+            "rating": 1,
+            "review_urls": [],
+            "text": "Ребёнок жалуется, что очень скользские. Пока шла до школы...",
+            "created": "15 минут назад"
+        },
+        {
+            "avatar_url": "https://i.pinimg.com/236x/4b/61/33/4b6133b490c5dd3fe0845b1837db81c3.jpg",
+            "first_name": "Николай",
+            "last_name": "Петров",
+            "rating": 2,
+            "text": "",
+            "review_urls": [
+                "https://i.pinimg.com/736x/0f/4a/83/0f4a833145e7596a4c3468cb2883edad.jpg",
+                "https://i.pinimg.com/736x/93/53/be/9353be482d42c94f88f01ecd8f9d5774.jpg",
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRiKjaDvICPlocqwPUpIhZTIQNHp2EEHYFEA&s"],
             "created": "вчера в 12:39"
         },
     ]

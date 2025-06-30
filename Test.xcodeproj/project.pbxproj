@@ -32,6 +32,7 @@
 		847589E42E0C7FA90003EE74 /* ReviewsCountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847589E32E0C7F830003EE74 /* ReviewsCountCell.swift */; };
 		847589E62E0D5A3F0003EE74 /* TextAttributesCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847589E52E0D5A310003EE74 /* TextAttributesCache.swift */; };
 		847589E82E0D68800003EE74 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847589E72E0D68790003EE74 /* ImageCache.swift */; };
+		84C776452E11EA1B0041F699 /* CustomSpinnerIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C776442E11EA050041F699 /* CustomSpinnerIndicator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,6 +62,7 @@
 		847589E32E0C7F830003EE74 /* ReviewsCountCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewsCountCell.swift; sourceTree = "<group>"; };
 		847589E52E0D5A310003EE74 /* TextAttributesCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextAttributesCache.swift; sourceTree = "<group>"; };
 		847589E72E0D68790003EE74 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
+		84C776442E11EA050041F699 /* CustomSpinnerIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSpinnerIndicator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +121,7 @@
 		21B82E222D47B0640085DAA2 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				84C776442E11EA050041F699 /* CustomSpinnerIndicator.swift */,
 				847589E72E0D68790003EE74 /* ImageCache.swift */,
 				847589E52E0D5A310003EE74 /* TextAttributesCache.swift */,
 				21B8416E2D47C4C60085DAA2 /* String+Ext.swift */,
@@ -289,6 +292,7 @@
 				21ED1F602D69C85E0012D6F6 /* RootViewController.swift in Sources */,
 				21B82E342D47B0AA0085DAA2 /* ReviewsViewModel.swift in Sources */,
 				21B8416B2D47BFA10085DAA2 /* Reviews.swift in Sources */,
+				84C776452E11EA1B0041F699 /* CustomSpinnerIndicator.swift in Sources */,
 				847589E82E0D68800003EE74 /* ImageCache.swift in Sources */,
 				21B82E302D47B0640085DAA2 /* ReviewsViewController.swift in Sources */,
 				2166A0F42D4A5B25009AAA76 /* ReviewsView.swift in Sources */,

@@ -7,13 +7,13 @@ struct ReviewCellConfig {
     static let reuseId = String(describing: ReviewCellConfig.self)
     
     /// Идентификатор конфигурации. Можно использовать для поиска конфигурации в массиве.
-    let id = UUID()
+    let id: UUID
     /// Аватар пользователя
     var avatarImage: UIImage
     ///Рейтинг пользователя
     let ratingImage: UIImage
     ///Фото отзывов
-    let reviewImages: [UIImage]
+    var reviewImages: [UIImage]
     /// Имя пользователя
     let firstName: NSAttributedString
     ///Фамилия пользователя

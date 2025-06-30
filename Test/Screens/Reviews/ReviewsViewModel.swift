@@ -135,6 +135,7 @@ private extension ReviewsViewModel {
     typealias ReviewItem = ReviewCellConfig
     
     func makeReviewItem(_ review: Review) -> ReviewItem {
+        let itemId = review.id
         let placeholder = UIImage(named: "profile_image")!
         let ratingImageView: UIImage
         
@@ -145,7 +146,7 @@ private extension ReviewsViewModel {
             ImageCache.shared.setImage(ratingImageView, for: review.rating)
         }
         
-        let reviewsImageView: [UIImage] = review.reviewPhotos.compactMap { UIImage(named: $0) }
+        let reviewsImageView: [UIImage] = Array(repeating: placeholder, count: review.reviewUrls.count)
         
         let firstNameText = TextAttributesCache.shared.attributedString(
             for: review.firstName,
@@ -168,7 +169,8 @@ private extension ReviewsViewModel {
             color: .created
         )
         
-        let item = ReviewItem(
+        var item = ReviewItem(
+            id: itemId,
             avatarImage: placeholder,
             ratingImage: ratingImageView,
             reviewImages: reviewsImageView,
@@ -178,20 +180,51 @@ private extension ReviewsViewModel {
             created: created,
             onTapShowMore: showMoreReview,
             onImageTap: { [weak self] index in
-                self?.showImageView(images: reviewsImageView, initialIndex: index)
+                guard let self = self else { return }
+                
+                if let itemIndex = self.state.items.firstIndex(where: { ($0 as? ReviewItem)?.id == itemId }),
+                   let currentItem = self.state.items[itemIndex] as? ReviewItem {
+                    self.showImageView(images: currentItem.reviewImages, initialIndex: index)
+                }
             }
         )
         
         if !review.avatarUrl.isEmpty {
-            loadImages(from: review.avatarUrl) { [weak self] image in
-                guard let self = self else { return }
-                var updatedItem = item
-                if let image = image {
-                    updatedItem.avatarImage = image
-                } else {
-                    updatedItem.avatarImage = placeholder
+            if let cachedImage = ImageCache.shared.image(for: review.avatarUrl) {
+                item.avatarImage = cachedImage
+            } else {
+                loadImages(from: review.avatarUrl) { [weak self] image in
+                    guard let self = self else { return }
+                    var updatedItem = item
+                    if let image = image {
+                        ImageCache.shared.setImage(image, for: review.avatarUrl)
+                        updatedItem.avatarImage = image
+                    } else {
+                        updatedItem.avatarImage = placeholder
+                    }
+                    self.updateCell(with: updatedItem)
                 }
-                self.updateCell(with: updatedItem)
+            }
+        }
+        
+        for (index, url) in review.reviewUrls.enumerated() {
+            if let cachedImage = ImageCache.shared.image(for: url) {
+                item.reviewImages[index] = cachedImage
+            } else {
+                loadImages(from: url) { [weak self] image in
+                    guard let self = self, let image = image else { return }
+                    
+                    ImageCache.shared.setImage(image, for: url)
+                    guard let currentIndex = self.state.items.firstIndex(where: { ($0 as? ReviewItem)?.id == item.id }),
+                          var currentItem = self.state.items[currentIndex] as? ReviewItem else { return }
+                    
+                    if currentItem.reviewImages.indices.contains(index) {
+                        currentItem.reviewImages[index] = image
+                        self.state.items[currentIndex] = currentItem
+                        self.cellHeightCache[currentItem.id] = nil
+                        self.onStateChange?(self.state)
+                    }
+                }
             }
         }
         
@@ -261,7 +294,6 @@ extension ReviewsViewModel: UITableViewDelegate {
         return UITableView.automaticDimension
     }
     
-    
     /// Метод дозапрашивает отзывы, если до конца списка отзывов осталось два с половиной экрана по высоте.
     func scrollViewWillEndDragging(
         _ scrollView: UIScrollView,
@@ -285,14 +317,5 @@ extension ReviewsViewModel: UITableViewDelegate {
         let triggerDistance = viewHeight * screensToLoadNextPage
         let remainingDistance = contentHeight - viewHeight - targetOffsetY
         return remainingDistance <= triggerDistance
-    }
-    
-}
-
-// MARK: - UIScrollViewDelegate
-
-extension ReviewsViewModel: UIScrollViewDelegate {
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        
     }
 }

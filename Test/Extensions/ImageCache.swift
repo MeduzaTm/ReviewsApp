@@ -9,14 +9,27 @@ import UIKit
 
 final class ImageCache {
     static let shared = ImageCache()
-    private let cache = NSCache<NSNumber, UIImage>()
+    private let ratingCache = NSCache<NSNumber, UIImage>()
+    private let urlCache = NSCache<NSString, UIImage>()
     
     func image(for rating: Int) -> UIImage? {
-        return cache.object(forKey: NSNumber(value: rating))
+        return ratingCache.object(forKey: NSNumber(value: rating))
     }
     
     func setImage(_ image: UIImage, for rating: Int) {
-        cache.setObject(image, forKey: NSNumber(value: rating))
+        ratingCache.setObject(image, forKey: NSNumber(value: rating))
+    }
+    
+    func image(for urlString: String) -> UIImage? {
+        return urlCache.object(forKey: urlString as NSString)
+    }
+    
+    func setImage(_ image: UIImage, for urlString: String) {
+        urlCache.setObject(image, forKey: urlString as NSString)
+    }
+    func clearCache() {
+        ratingCache.removeAllObjects()
+        urlCache.removeAllObjects()
     }
 }
 
